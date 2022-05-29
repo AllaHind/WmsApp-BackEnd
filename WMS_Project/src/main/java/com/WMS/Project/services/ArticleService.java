@@ -1,9 +1,6 @@
 package com.WMS.Project.services;
 
-import com.WMS.Project.models.Article;
-import com.WMS.Project.models.Categorie;
-import com.WMS.Project.models.Conditionnement;
-import com.WMS.Project.models.Emplacement;
+import com.WMS.Project.models.*;
 import com.WMS.Project.payload.response.MessageResponse;
 import com.WMS.Project.repository.ArticleRepository;
 import com.WMS.Project.repository.CategorieRepo;
@@ -18,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Entity;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -29,12 +27,26 @@ public class ArticleService {
     @Autowired
     private EmplacementRep emplacementRep;
 
+    @Query("select COUNT(*) from Article ")
+    public int GetNumberProduct() {
+        return articleRepository.GetNumberProduct();
+    }
+
+    @Query("select count(*) from Article a  where a.approv>a.qtt")
+    public int getAppro() {
+        return articleRepository.getAppro();
+    }
+
     public Article findByCode(String code) {
         return articleRepository.findByCode(code);
     }
 
     public Article findByCup(long cup) {
         return articleRepository.findByCup(cup);
+    }
+
+    public Optional<Article> findById(Long id) {
+        return articleRepository.findById(id);
     }
 
     public ResponseEntity<?> save(Article article) {
@@ -69,6 +81,7 @@ public class ArticleService {
             Categorie categorie=categorieRepo.findByNom(article.getCategorie().getNom());
             article.setCategorie(categorie);
             articleRepository.save(article);
+
 
             return ResponseEntity.ok(new MessageResponse("Article registered successfully!"));
         }
@@ -113,4 +126,12 @@ public class ArticleService {
 
         return sb.toString();
     }
+public  void updateArticle(Article article,int quantity){
+
+        int articleQuantity=article.getQtt();
+       int nvQuantity=articleQuantity+quantity;
+       article.setQtt(nvQuantity);
+
+}
+
 }

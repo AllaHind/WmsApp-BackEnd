@@ -5,6 +5,7 @@ import com.WMS.Project.repository.EmplacementRep;
 import com.WMS.Project.services.EmpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,5 +31,10 @@ public class EmpController {
     @GetMapping("/findAll")
     public List<Emplacement> findAll() {
         return empService.findAll();
+    }
+
+    @DeleteMapping("/id/{id}")
+    public void deleteById(@PathVariable("id") Long id) {
+        empService.deleteById(id);
     }
 }

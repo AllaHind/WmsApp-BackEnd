@@ -2,6 +2,7 @@ package com.WMS.Project.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,9 +24,11 @@ public class Emplacement {
     private String niveau;
     private String alveole;
     private String status;
+    private double poidsMax;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy ="emplacement",cascade = CascadeType.ALL)
-    @JsonManagedReference
     private List<Article> articles;
+
 
 
 }

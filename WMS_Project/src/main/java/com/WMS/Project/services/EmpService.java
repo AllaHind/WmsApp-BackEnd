@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -36,6 +37,11 @@ private CdtRepo cdtRepo;
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Code existant"));
+        }
+        if (emp.getAlle()==null || emp.getTravee()==null || emp.getNiveau()==null || emp.getAlveole()==null) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Les champs (*) sont obligatoires"));
         } else {
 
             emplacementRep.save(emp);
@@ -72,5 +78,10 @@ private CdtRepo cdtRepo;
     }
     public  List<Emplacement> findAll() {
         return emplacementRep.findAll();
+    }
+
+    @Transactional
+    public void deleteById(Long id) {
+        emplacementRep.deleteById(id);
     }
 }

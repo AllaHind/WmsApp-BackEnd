@@ -33,7 +33,7 @@ public class Article {
     private long cup; //CodeBarre
     private String dateExp;
     private int approv;
-    @JsonBackReference
+    private String familleStockage;
     @ManyToOne
     private Emplacement emplacement;
     private double prixPublic;
@@ -41,5 +41,8 @@ public class Article {
     @JsonBackReference(value="user-movement")
     @ManyToOne
     private Categorie categorie;
+    @OneToOne(mappedBy = "article")
+    private OrderItem orderItem;
+
 
 }
